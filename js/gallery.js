@@ -82,18 +82,21 @@ const markup = images.map(({ preview, original, description }) =>
 </li>
 `).join('')
 
-galleryList.insertAdjacentHTML('beforeend', markup);
+galleryList.innerHTML = markup;
 
-const links = document.querySelectorAll('.gallery-link');
-const result = links.forEach(link => link.addEventListener('click', event => {event.preventDefault();}));
+// const links = document.querySelectorAll('.gallery-link');
+// const result = links.forEach(link => link.addEventListener('click', event => {event.preventDefault();}));
 
 galleryList.addEventListener('click', openModal);
 
 function openModal(event) {
+  event.preventDefault();
+
   if (event.target === event.currentTarget) {
     return;
   }
   
+  if (event.target.classList.contains('gallery-image')) {
   const bigImage = event.target.dataset.source;
 
   const instance = basicLightbox.create(`
@@ -101,14 +104,21 @@ function openModal(event) {
     />`,
     {
       onShow: () => {
-    document.addEventListener('keyup', (event) => {
-      if (event.code === 'Escape') {
-        instance.close();
-      }
-    })
-      }
+        document.addEventListener('keyup', closeModal);
+      },
+      
+      onClose: () => {
+        document.removeEventListener('keyup', closeModal);
+      },
     }
   );
 
+  function closeModal(event) {
+    if (event.code === 'Escape') {
+      instance.close();
+    }
+    };
+    
   instance.show();
+} 
 }
