@@ -100,7 +100,7 @@ function openModal(event) {
   const bigImage = event.target.dataset.source;
 
   const instance = basicLightbox.create(`
-    <img src="${bigImage}" width="1112" height="640"
+    <img src="${bigImage}" alt="${images.description}"
     />`,
     {
       onShow: () => {
