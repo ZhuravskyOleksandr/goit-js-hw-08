@@ -89,6 +89,8 @@ galleryList.innerHTML = markup;
 
 galleryList.addEventListener('click', openModal);
 
+let instance;
+
 function openModal(event) {
   event.preventDefault();
 
@@ -99,7 +101,7 @@ function openModal(event) {
   if (event.target.classList.contains('gallery-image')) {
   const bigImage = event.target.dataset.source;
 
-  const instance = basicLightbox.create(`
+   instance = basicLightbox.create(`
     <img src="${bigImage}" alt="${images.description}"
     />`,
     {
@@ -112,13 +114,13 @@ function openModal(event) {
       },
     }
   );
-
-  function closeModal(event) {
-    if (event.code === 'Escape') {
-      instance.close();
-    }
-    };
-    
+ 
   instance.show();
 } 
-}
+};
+
+function closeModal(event) {
+  if (event.code === 'Escape') {
+    instance.close();
+  }
+};
